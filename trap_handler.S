@@ -159,13 +159,17 @@ m_timr_intr:
 
     li gp, m_gp
 
-    mv a0, t0
+    lw t0, p_status(a0)
+    li t1, ready
+    bne t0, t1, not_ready
+
     lw a1, p_queue_tail(gp)
     li a2, max_process
     addi a3, gp, p_queue
     jal enqueue
     sw a1, p_queue_tail(gp)
 
+not_ready:
     la a0, process_switch_msg
     jal print_const
 
@@ -180,25 +184,25 @@ m_timr_intr:
 
 
 m_extr_intr:
-    csrrw sp, mscratch, sp
-    addi sp, sp, -28
-    sw t6, 24(sp)
-    sw t5, 20(sp)
-    sw t4, 16(sp)
-    sw t3, 12(sp)
-    sw t2, 8(sp)
-    sw t1, 4(sp)
-    sw t0, 0(sp)
+    # csrrw sp, mscratch, sp
+    # addi sp, sp, -28
+    # sw t6, 24(sp)
+    # sw t5, 20(sp)
+    # sw t4, 16(sp)
+    # sw t3, 12(sp)
+    # sw t2, 8(sp)
+    # sw t1, 4(sp)
+    # sw t0, 0(sp)
     
-    nop
+    # nop
     
-    lw t0, 0(sp)
-    lw t1, 4(sp)
-    lw t2, 8(sp)
-    lw t3, 12(sp)
-    lw t4, 16(sp)
-    lw t5, 20(sp)
-    lw t6, 24(sp)
-    addi sp, sp, 28
-    csrrw sp, mscratch, sp
+    # lw t0, 0(sp)
+    # lw t1, 4(sp)
+    # lw t2, 8(sp)
+    # lw t3, 12(sp)
+    # lw t4, 16(sp)
+    # lw t5, 20(sp)
+    # lw t6, 24(sp)
+    # addi sp, sp, 28
+    # csrrw sp, mscratch, sp
     mret

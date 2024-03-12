@@ -53,9 +53,11 @@ print_const_write:
     ret
 
 #a0: ptr to process
+#a1: process sp
 block_process:
     li t0, blocked
     sb t0, p_status(a0)
+    sw a1, p_registers+1*4(a0)
     ret
 
 #a0: ptr to process
@@ -173,8 +175,12 @@ set_pmp_cfg:
 
     mret
 
+
+
 #Assume stack pointer switched into mscratch
 #Return address to save is pushed to stack
+# -> a0: process ptr
+#    a1: process status
 save_state:
     addi sp, sp, -12
     #save gp, t0 and t1, to allow logic while saving registers
@@ -235,8 +241,16 @@ save_state:
 
     csrr t1, mepc
     sw t1, p_pc(t0)
-    li t1, 1
-    sb t1, p_status(t0)
+    # li t1, 1
+    lb t1, p_status(t0)
+    bne zero, t1, not_running
+    li t2, ready
+    sb t2, p_status(t0)
+
+    not_running:
+
+    mv a0, t0
+    # lw a1, p_status(t0)
 
     ret
 

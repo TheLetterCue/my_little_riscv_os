@@ -10,6 +10,8 @@ exit_process:
 
     csrw pmpcfg0, zero
     fence.i
+    #Discard killed process' gp
+    addi sp, sp, 4
 
     lw t0, current_process(gp)
     lw t1, p_stack_pointer(gp)
@@ -27,7 +29,6 @@ exit_process:
     addi t0, t0, -1
     sw t0, process_count(gp)
 
-    addi sp, sp, 4
 
     j run_process
 
@@ -51,6 +52,7 @@ print:
     mv a2, a1
     jal set_mem
 print_enabled:
+
     j sync_ecall_exit
 
 
