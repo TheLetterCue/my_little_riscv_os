@@ -22,6 +22,9 @@
 
 .set tx_ie,             0x1
 
+.uart_plic_priority0,   1
+.uart_plic_mask,        0x08
+
 .set running,           0
 .set ready,             1
 .set blocked,           2

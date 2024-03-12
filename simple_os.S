@@ -101,6 +101,27 @@ _boot:
     li t1, rx_en
     sw t1, rxctrl(t0)
 
+    #set up print queue
+    li t0, -1
+    sw t0, print_q_head(gp)
+    sw t0, print_q_tail(gp)
+    sw zero, print_q_n(gp)
+
+    #set up uart0 interrupts in the PLIC
+    li a0, PLIC
+    li t1, uart0_plic_priority
+    sw t1, plic_priority+plic_uart0(a0)
+    addi a0, a0, m_mode_int_en
+    li a1, uart_plic_mask
+    mv a2, a1
+    jal set_mem
+
+
+
+
+
+
+
     sw zero, process_count(gp)
     li t0, -1
     sw t0, current_process(gp)
@@ -114,9 +135,6 @@ _boot:
     #tail points to end of queue
     sw t0, p_queue_tail(gp)
 
-    sw t0, print_q_head(gp)
-    sw t0, print_q_tail(gp)
-    sw zero, print_q_n(gp)
 
     #full descending stack
     addi t0, gp, p_stack_pointer

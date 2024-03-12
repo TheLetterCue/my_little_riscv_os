@@ -16,10 +16,13 @@
 .set ITIM,          0x08000000
 
 .set PLIC,          0x0C000000
-.set src_1_pri,     0x000004
-.set pending_array, 0x001000
-.set m_mode_int_en, 0x002000
-.set m_mode_pri_thr,0x200000
+.set plic_priority, 0x00000000
+.set pending_array, 0x00001000
+.set m_mode_int_en, 0x00002000
+.set m_mode_pri_thr,0x00200000
+
+.set plic_uart0,    3*4
+
 
 .set AON,           0x10000000
 
