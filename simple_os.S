@@ -114,6 +114,9 @@ _boot:
     #tail points to end of queue
     sw t0, p_queue_tail(gp)
 
+    sw t0, print_q_head(gp)
+    sw t0, print_q_tail(gp)
+
     #full descending stack
     addi t0, gp, p_stack_pointer
     sw t0, p_stack_pointer(gp)
