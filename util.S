@@ -52,6 +52,24 @@ print_const_write:
     bne zero, t1, print_const_body
     ret
 
+#a0: ptr to process
+block_process:
+    li t0, blocked
+    sb t0, p_status(a0)
+    ret
+
+#a0: ptr to process
+unblock_process:
+    li t0, ready
+    sb t0, p_status(a0)
+    #a0 in place
+    lw a1, p_queue_tail(gp)
+    li a2, max_process
+    addi a3, gp, p_queue
+    jal enqueue
+    sw a1, p_queue_tail(gp)
+    ret
+
 
 
 #a0: process pointer
@@ -100,6 +118,7 @@ set_na4:
     ori t2, t2, pmp_text_na4
 set_pmp_cfg:
     csrw pmpcfg0, t2
+    #zero status is running
     sb zero, p_status(t0)
     lw t1, p_pc(t0)
     csrw mepc, t1

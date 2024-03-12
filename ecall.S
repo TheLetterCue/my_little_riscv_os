@@ -85,7 +85,7 @@ create_process:
     #set parent pid
     lb t0, current_process(gp)
     sb t0, p_parent_id(t1)
-    li t0, 1
+    li t0, ready
     sb t0, p_status(t1)
     sb a0, p_text_size(t1)
     sw a1, p_pc(t1)
