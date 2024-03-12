@@ -116,6 +116,7 @@ _boot:
 
     sw t0, print_q_head(gp)
     sw t0, print_q_tail(gp)
+    sw zero, print_q_n(gp)
 
     #full descending stack
     addi t0, gp, p_stack_pointer

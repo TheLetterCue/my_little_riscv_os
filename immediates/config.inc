@@ -20,6 +20,8 @@
 .set gpio_o_en_def,     0x006b0000
 .set gpio_iof_en,       0x00030000
 
+.set tx_ie,             0x1
+
 .set running,           0
 .set ready,             1
 .set blocked,           2

@@ -31,9 +31,28 @@ exit_process:
 
     j run_process
 
+    #a0: char*
 print:
-    jal print_const
+    mv t0, a0
+    lw a0, current_process(gp)
+    jal block_process
+    lw t1, print_q_n(gp)
+    addi t1, t2, 1
+    sw t2, print_q_n(gp)
+    mv a0, t0
+    lw a1, print_q_tail(gp)
+    li a2, max_process
+    addi a3, gp, print_queue
+    jal enqueue
+    sw a1, print_q_tail(gp)
+    bne zero, t1, print_enabled
+    li a0, UART_0+ie
+    li a1, tx_ie
+    mv a2, a1
+    jal set_mem
+print_enabled:
     j sync_ecall_exit
+
 
 yield:
     # li t1, CLINT+mtime

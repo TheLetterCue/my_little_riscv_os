@@ -17,3 +17,4 @@
 .set _end_print_q,      print_queue+4*max_process
 .set print_q_head,      _end_print_q
 .set print_q_tail,      print_q_head+4
+.set print_q_n,         print_q_tail+4
