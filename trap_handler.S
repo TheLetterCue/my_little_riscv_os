@@ -138,28 +138,9 @@ t_exit:
     mret
 
 #async traps save the temp registers to preserve state
+#Software interrupts unlikely to be used on a single hart board
+#As they would function identically to a ecall
 m_soft_intr:
-    csrrw sp, mscratch, sp
-    addi sp, sp, -28
-    sw t6, 24(sp)
-    sw t5, 20(sp)
-    sw t4, 16(sp)
-    sw t3, 12(sp)
-    sw t2, 8(sp)
-    sw t1, 4(sp)
-    sw t0, 0(sp)
-    
-    nop
-    
-    lw t0, 0(sp)
-    lw t1, 4(sp)
-    lw t2, 8(sp)
-    lw t3, 12(sp)
-    lw t4, 16(sp)
-    lw t5, 20(sp)
-    lw t6, 24(sp)
-    addi sp, sp, 28
-    csrrw sp, mscratch, sp
     mret
 
 #assumes:
