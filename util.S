@@ -3,11 +3,11 @@
 #a1: word bit selection (bit mask)
 #a2: new bit value
 set_mem:
-    lw t0, (a0)
+    lw a3, (a0)
     not a1, a1
-    and t0, t0, a1
-    or t0, t0, a2
-    sw t0, (a0)
+    and a3, a3, a1
+    or a3, a3, a2
+    sw a3, (a0)
     ret
 
 #a0: value
@@ -60,23 +60,26 @@ print_const_write:
     ret
 
 #a0: ptr to process
-#a1: process sp
 block_process:
-    li t0, blocked
-    sb t0, p_status(a0)
-    sw a1, p_registers+1*4(a0)
+    li a1, blocked
+    sb a1, p_status(a0)
+    # sw a1, p_registers+1*4(a0)
     ret
 
 #a0: ptr to process
 unblock_process:
-    li t0, ready
-    sb t0, p_status(a0)
+    addi sp, sp, -4
+    sw ra, 0(sp)
+    li a1, ready
+    sb a1, p_status(a0)
     #a0 in place
     lw a1, p_queue_tail(gp)
     li a2, max_process
     addi a3, gp, p_queue
     jal enqueue
     sw a1, p_queue_tail(gp)
+    lw ra, 0(sp)
+    addi sp, sp, 4
     ret
 
 

@@ -106,7 +106,8 @@ not_terminated:
 
 m_extr_intr:
     csrrw sp, mscratch, sp
-    addi sp, sp, -(4*9)
+    addi sp, sp, -(4*10)
+    sw a4, 36(sp)
     sw s0, 32(sp)
     sw s1, 28(sp)
     sw s2, 24(sp)
@@ -116,6 +117,7 @@ m_extr_intr:
     sw a2, 8(sp)
     sw a3, 4(sp)
     sw gp, 0(sp)
+    li gp, m_gp
 
     li s3, PLIC+plic_claim
     lw s3, (s3)
@@ -145,7 +147,8 @@ exit_ext_intr:
     lw s2, 24(sp)
     lw s1, 28(sp)
     lw s0, 32(sp)
+    lw a4, 36(sp)
 
-    addi sp, sp, 4*9
+    addi sp, sp, 4*10
     csrr sp, mscratch
     mret

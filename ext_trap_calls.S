@@ -18,13 +18,26 @@ uart_print_loop:
     jal dequeue
     sw a1, print_q_head(gp)
 
+
+    lw s1, print_q_n(gp)
+    addi s1, s1, -1
+    sw s1, print_q_n(gp)
+
+    bne zero, s1, queue_not_empty
+    li a0, UART_0+ie
+    li a1, tx_ie
+    mv a2, zero
+    jal set_mem
+
+
+queue_not_empty:
     addi a2, gp, print_queue
     jal get_head
     sw a0, print_pointer(gp)
 
     lw a1, print_id_q_head(gp)
     li a2, max_process
-    addi a3, gp, print_id_queue+-8
+    addi a3, gp, print_id_queue
     jal dequeue
     sw a1, print_id_q_head(gp)
 
