@@ -9,10 +9,14 @@ set_led:
 exit_process:
 
     li t0, terminated
-    sb t0, p_status(a0)
-    sw a1, p_registers+1*4(a0)
+    lw t1, current_process(gp)
+    sb t0, p_status(t1)
+    li t1, CLINT+mtimecmp
+    sw zero, 4(t1)
+    sw zero, 0(t1) 
+    # sw a1, p_registers+1*4(a0)
 
-    j sync_ecall_exit
+    j sync_trap_exit
     # csrw pmpcfg0, zero
     # fence.i
     #Discard killed process' gp
@@ -72,7 +76,7 @@ print:
     mv a2, a1
     jal set_mem
     sw s0, print_pointer(gp)
-    
+
 print_enabled:
 
     lw s0, 0(sp)

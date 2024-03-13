@@ -55,9 +55,7 @@ m_soft_intr:
 #assumes:
 #there is at least one user process, otherwise timer interrupts would not be set
 #p_text_pointer and p_data_pointer are valid
-m_timr_intr:
-
-    
+m_timr_intr:    
     csrw pmpcfg0, zero
     fence.i
 
@@ -71,6 +69,7 @@ m_timr_intr:
     lb t0, p_status(a0)
     li t1, ready
     bne t0, t1, not_ready
+
 
     lw a1, p_queue_tail(gp)
     li a2, max_process
@@ -89,6 +88,8 @@ not_ready:
     lw t1, process_count(gp)
     addi t1, t1, -1
     sw t1, process_count(gp)
+    
+    
 
 not_terminated:
     la a0, process_switch_msg
@@ -134,7 +135,6 @@ ext_intr_tbl:
     nop
     j uart0_ext_intr
 
-.include "ext_trap_calls.S"
 
 exit_ext_intr:
     lw s2, 0(sp)
@@ -156,3 +156,7 @@ exit_ext_intr:
     addi sp, sp, 4*10
     csrr sp, mscratch
     mret
+
+
+
+.include "ext_trap_calls.S"

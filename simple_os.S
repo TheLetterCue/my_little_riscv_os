@@ -227,7 +227,7 @@ _boot:
     li a7, 0
     ecall
 
-    li a0, 3
+    li a0, 4
     la a1, printer
     li a7, 0
     ecall
