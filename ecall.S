@@ -41,17 +41,28 @@ exit_process:
     #a0: char*
 print:
     mv t0, a0
+
     lw a0, current_process(gp)
     jal block_process
+
     lw t1, print_q_n(gp)
-    addi t1, t2, 1
+    addi t2, t1, 1
     sw t2, print_q_n(gp)
+
     mv a0, t0
     lw a1, print_q_tail(gp)
     li a2, max_process
     addi a3, gp, print_queue
     jal enqueue
     sw a1, print_q_tail(gp)
+
+    lw a0, current_process(gp)
+    lw a1, print_id_q_tail(gp)
+    li a2, max_process
+    addi a3, gp, print_id_queue
+    jal enqueue
+    sw a1, print_id_q_tail(gp)
+
     bne zero, t1, print_enabled
     li a0, UART_0+ie
     li a1, tx_ie

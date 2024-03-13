@@ -107,6 +107,10 @@ _boot:
     sw t0, print_q_tail(gp)
     sw zero, print_q_n(gp)
 
+    sw t0, print_id_q_head(gp)
+    sw t0, print_id_q_tail(gp)
+    
+
     #set up uart0 interrupts in the PLIC
     li a0, PLIC
     li t1, uart0_plic_priority
