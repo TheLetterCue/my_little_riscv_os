@@ -68,7 +68,7 @@ m_timr_intr:
 
     li gp, m_gp
 
-    lw t0, p_status(a0)
+    lb t0, p_status(a0)
     li t1, ready
     bne t0, t1, not_ready
 

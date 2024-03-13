@@ -32,7 +32,7 @@
 
 
 .set uart_div,          138
-.set tx_en,             0x101
+.set tx_en,             0x10001
 .set rx_en,             0x1
 
 .set max_text_size,     26

@@ -37,8 +37,12 @@ dummy:
     nop
     j dummy
 
+.align 5
 printer:
-    
+    la a0, user_msg
+    li a7, 3
+    ecall
+    j printer
 
 
 # .align 5

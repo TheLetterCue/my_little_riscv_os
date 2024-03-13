@@ -35,7 +35,7 @@ str_amo_access_fault:
 #->a0: ecall output
 #a7: ecall code
 
-.set max_u_ecall,   3
+.set max_u_ecall,   4
 u_env_call:
     li t0, max_u_ecall
     blt t0, a7, u_ecall_inv_code

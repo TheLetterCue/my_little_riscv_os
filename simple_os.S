@@ -111,10 +111,17 @@ _boot:
     sw t0, print_id_q_tail(gp)
 
 
-    #set up uart0 interrupts in the PLIC
-    li a0, PLIC
+    #set up interrupts in the PLIC
+
+    li t0, PLIC+m_mode_int_en
+    sw zero, (t0)
+    sw zero, 4(t0)
+    li t0, PLIC+m_mode_pri_thr
+    sw zero, (t0)
+
+    li t0, PLIC+plic_priority+plic_uart0
     li t1, uart_plic_priority
-    sw t1, plic_priority+plic_uart0(a0)
+    sw t1, (t0)
     li a0, PLIC+m_mode_int_en
     # addi a0, a0, m_mode_int_en
     li a1, uart_plic_mask
@@ -220,10 +227,10 @@ _boot:
     li a7, 0
     ecall
 
-    # li a0, 4
-    # la a1, proc_example
-    # li a7, 0
-    # ecall
+    li a0, 3
+    la a1, printer
+    li a7, 0
+    ecall
 
     # li a0, 4
     # la a1, proc_example_child
