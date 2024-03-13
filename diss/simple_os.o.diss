@@ -520,30 +520,30 @@ Disassembly of section .text:
  6d8:	00050413          	mv	s0,a0
  6dc:	0041a503          	lw	a0,4(gp) # 80000004 <DTIM+0x4>
  6e0:	bf1ff0ef          	jal	2d0 <block_process>
- 6e4:	46c1a303          	lw	t1,1132(gp)
- 6e8:	00130393          	addi	t2,t1,1 # 595 <trap_from_m_mode+0x9>
- 6ec:	4671a623          	sw	t2,1132(gp)
- 6f0:	00601e63          	bne	zero,t1,70c <print_enabled>
- 6f4:	10013537          	lui	a0,0x10013
- 6f8:	01050513          	addi	a0,a0,16 # 10013010 <UART_0+0x10>
- 6fc:	00100593          	li	a1,1
- 700:	00058613          	mv	a2,a1
- 704:	b4dff0ef          	jal	250 <set_mem>
- 708:	4681a823          	sw	s0,1136(gp)
+ 6e4:	0041a503          	lw	a0,4(gp)
+ 6e8:	4441a583          	lw	a1,1092(gp)
+ 6ec:	00700613          	li	a2,7
+ 6f0:	42418693          	addi	a3,gp,1060
+ 6f4:	b75ff0ef          	jal	268 <enqueue>
+ 6f8:	44b1a223          	sw	a1,1092(gp)
+ 6fc:	00040513          	mv	a0,s0
+ 700:	4681a583          	lw	a1,1128(gp)
+ 704:	00700613          	li	a2,7
+ 708:	44818693          	addi	a3,gp,1096
+ 70c:	b5dff0ef          	jal	268 <enqueue>
+ 710:	46b1a423          	sw	a1,1128(gp)
+ 714:	46c1a303          	lw	t1,1132(gp)
+ 718:	00130393          	addi	t2,t1,1 # 595 <trap_from_m_mode+0x9>
+ 71c:	4671a623          	sw	t2,1132(gp)
+ 720:	00601e63          	bne	zero,t1,73c <print_enabled>
+ 724:	10013537          	lui	a0,0x10013
+ 728:	01050513          	addi	a0,a0,16 # 10013010 <UART_0+0x10>
+ 72c:	00100593          	li	a1,1
+ 730:	00058613          	mv	a2,a1
+ 734:	b1dff0ef          	jal	250 <set_mem>
+ 738:	4681a823          	sw	s0,1136(gp)
 
-0000070c <print_enabled>:
- 70c:	00040513          	mv	a0,s0
- 710:	4681a583          	lw	a1,1128(gp)
- 714:	00700613          	li	a2,7
- 718:	44818693          	addi	a3,gp,1096
- 71c:	b4dff0ef          	jal	268 <enqueue>
- 720:	46b1a423          	sw	a1,1128(gp)
- 724:	0041a503          	lw	a0,4(gp)
- 728:	4441a583          	lw	a1,1092(gp)
- 72c:	00700613          	li	a2,7
- 730:	42418693          	addi	a3,gp,1060
- 734:	b35ff0ef          	jal	268 <enqueue>
- 738:	44b1a223          	sw	a1,1092(gp)
+0000073c <print_enabled>:
  73c:	00012403          	lw	s0,0(sp)
  740:	00410113          	addi	sp,sp,4
  744:	1480006f          	j	88c <sync_ecall_exit>
@@ -722,98 +722,104 @@ Disassembly of section .text:
  978:	0c2009b7          	lui	s3,0xc200
  97c:	00498993          	addi	s3,s3,4 # c200004 <PLIC+0x200004>
  980:	0009a983          	lw	s3,0(s3)
- 984:	00299413          	slli	s0,s3,0x2
- 988:	00000497          	auipc	s1,0x0
- 98c:	00048493          	mv	s1,s1
- 990:	00940433          	add	s0,s0,s1
- 994:	00040067          	jr	s0
+ 984:	ffc10113          	addi	sp,sp,-4
+ 988:	01312023          	sw	s3,0(sp)
+ 98c:	00299413          	slli	s0,s3,0x2
+ 990:	00000497          	auipc	s1,0x0
+ 994:	00048493          	mv	s1,s1
+ 998:	00940433          	add	s0,s0,s1
+ 99c:	00040067          	jr	s0
 
-00000998 <ext_intr_tbl>:
- 998:	00000013          	nop
- 99c:	00000013          	nop
+000009a0 <ext_intr_tbl>:
  9a0:	00000013          	nop
- 9a4:	0040006f          	j	9a8 <uart0_ext_intr>
+ 9a4:	00000013          	nop
+ 9a8:	00000013          	nop
+ 9ac:	0040006f          	j	9b0 <uart0_ext_intr>
 
-000009a8 <uart0_ext_intr>:
- 9a8:	10013437          	lui	s0,0x10013
- 9ac:	4701a483          	lw	s1,1136(gp) # 80000470 <DTIM+0x470>
- 9b0:	fff48493          	addi	s1,s1,-1 # 987 <m_extr_intr+0x43>
+000009b0 <uart0_ext_intr>:
+ 9b0:	10013437          	lui	s0,0x10013
+ 9b4:	4701a483          	lw	s1,1136(gp) # 80000470 <DTIM+0x470>
+ 9b8:	fff48493          	addi	s1,s1,-1 # 98f <m_extr_intr+0x4b>
 
-000009b4 <uart_print_loop>:
- 9b4:	00148493          	addi	s1,s1,1
- 9b8:	00048903          	lb	s2,0(s1)
- 9bc:	412429af          	amoor.w	s3,s2,(s0)
- 9c0:	07301463          	bne	zero,s3,a28 <tx_q_full>
- 9c4:	ff2018e3          	bne	zero,s2,9b4 <uart_print_loop>
- 9c8:	4641a583          	lw	a1,1124(gp)
- 9cc:	00700613          	li	a2,7
- 9d0:	44818693          	addi	a3,gp,1096
- 9d4:	8b1ff0ef          	jal	284 <dequeue>
- 9d8:	46b1a223          	sw	a1,1124(gp)
- 9dc:	46c1a483          	lw	s1,1132(gp)
- 9e0:	fff48493          	addi	s1,s1,-1
- 9e4:	4691a623          	sw	s1,1132(gp)
- 9e8:	00901c63          	bne	zero,s1,a00 <queue_not_empty>
- 9ec:	10013537          	lui	a0,0x10013
- 9f0:	01050513          	addi	a0,a0,16 # 10013010 <UART_0+0x10>
- 9f4:	00100593          	li	a1,1
- 9f8:	00000613          	li	a2,0
- 9fc:	855ff0ef          	jal	250 <set_mem>
+000009bc <uart_print_loop>:
+ 9bc:	00148493          	addi	s1,s1,1
+ 9c0:	00048903          	lb	s2,0(s1)
+ 9c4:	412429af          	amoor.w	s3,s2,(s0)
+ 9c8:	07301863          	bne	zero,s3,a38 <tx_q_full>
+ 9cc:	ff2018e3          	bne	zero,s2,9bc <uart_print_loop>
+ 9d0:	4641a583          	lw	a1,1124(gp)
+ 9d4:	00700613          	li	a2,7
+ 9d8:	44818693          	addi	a3,gp,1096
+ 9dc:	8a9ff0ef          	jal	284 <dequeue>
+ 9e0:	46b1a223          	sw	a1,1124(gp)
+ 9e4:	4401a583          	lw	a1,1088(gp)
+ 9e8:	00700613          	li	a2,7
+ 9ec:	42418693          	addi	a3,gp,1060
+ 9f0:	895ff0ef          	jal	284 <dequeue>
+ 9f4:	44b1a023          	sw	a1,1088(gp)
+ 9f8:	8e5ff0ef          	jal	2dc <unblock_process>
+ 9fc:	46c1a483          	lw	s1,1132(gp)
+ a00:	fff48493          	addi	s1,s1,-1
+ a04:	4691a623          	sw	s1,1132(gp)
+ a08:	00900c63          	beq	zero,s1,a20 <queue_empty>
+ a0c:	4641a583          	lw	a1,1124(gp)
+ a10:	44818613          	addi	a2,gp,1096
+ a14:	88dff0ef          	jal	2a0 <get_head>
+ a18:	46a1a823          	sw	a0,1136(gp)
+ a1c:	0240006f          	j	a40 <exit_ext_intr>
 
-00000a00 <queue_not_empty>:
- a00:	44818613          	addi	a2,gp,1096
- a04:	89dff0ef          	jal	2a0 <get_head>
- a08:	46a1a823          	sw	a0,1136(gp)
- a0c:	4401a583          	lw	a1,1088(gp)
- a10:	00700613          	li	a2,7
- a14:	42418693          	addi	a3,gp,1060
- a18:	86dff0ef          	jal	284 <dequeue>
- a1c:	44b1a023          	sw	a1,1088(gp)
- a20:	8bdff0ef          	jal	2dc <unblock_process>
- a24:	00c0006f          	j	a30 <exit_ext_intr>
+00000a20 <queue_empty>:
+ a20:	10013537          	lui	a0,0x10013
+ a24:	01050513          	addi	a0,a0,16 # 10013010 <UART_0+0x10>
+ a28:	00100593          	li	a1,1
+ a2c:	00000613          	li	a2,0
+ a30:	821ff0ef          	jal	250 <set_mem>
+ a34:	00c0006f          	j	a40 <exit_ext_intr>
 
-00000a28 <tx_q_full>:
- a28:	4691a823          	sw	s1,1136(gp)
- a2c:	0040006f          	j	a30 <exit_ext_intr>
+00000a38 <tx_q_full>:
+ a38:	4691a823          	sw	s1,1136(gp)
+ a3c:	0040006f          	j	a40 <exit_ext_intr>
 
-00000a30 <exit_ext_intr>:
- a30:	0c2009b7          	lui	s3,0xc200
- a34:	00498993          	addi	s3,s3,4 # c200004 <PLIC+0x200004>
- a38:	0139a023          	sw	s3,0(s3)
- a3c:	00012183          	lw	gp,0(sp)
- a40:	00412683          	lw	a3,4(sp)
- a44:	00812603          	lw	a2,8(sp)
- a48:	00c12583          	lw	a1,12(sp)
- a4c:	01012503          	lw	a0,16(sp)
- a50:	01412983          	lw	s3,20(sp)
- a54:	01812903          	lw	s2,24(sp)
- a58:	01c12483          	lw	s1,28(sp)
- a5c:	02012403          	lw	s0,32(sp)
- a60:	02412703          	lw	a4,36(sp)
- a64:	02810113          	addi	sp,sp,40
- a68:	34002173          	csrr	sp,mscratch
- a6c:	30200073          	mret
+00000a40 <exit_ext_intr>:
+ a40:	00012903          	lw	s2,0(sp)
+ a44:	00410113          	addi	sp,sp,4
+ a48:	0c2009b7          	lui	s3,0xc200
+ a4c:	00498993          	addi	s3,s3,4 # c200004 <PLIC+0x200004>
+ a50:	0129a023          	sw	s2,0(s3)
+ a54:	00012183          	lw	gp,0(sp)
+ a58:	00412683          	lw	a3,4(sp)
+ a5c:	00812603          	lw	a2,8(sp)
+ a60:	00c12583          	lw	a1,12(sp)
+ a64:	01012503          	lw	a0,16(sp)
+ a68:	01412983          	lw	s3,20(sp)
+ a6c:	01812903          	lw	s2,24(sp)
+ a70:	01c12483          	lw	s1,28(sp)
+ a74:	02012403          	lw	s0,32(sp)
+ a78:	02412703          	lw	a4,36(sp)
+ a7c:	02810113          	addi	sp,sp,40
+ a80:	34002173          	csrr	sp,mscratch
+ a84:	30200073          	mret
 
-00000a70 <user_section>:
- a70:	00000013          	nop
-
-00000a74 <dummy>:
- a74:	00000013          	nop
- a78:	ffdff06f          	j	a74 <dummy>
- a7c:	00000013          	nop
- a80:	00000013          	nop
- a84:	00000013          	nop
+00000a88 <user_section>:
  a88:	00000013          	nop
- a8c:	00000013          	nop
- a90:	00000013          	nop
- a94:	00000013          	nop
 
-00000a98 <printer>:
- a98:	00000517          	auipc	a0,0x0
- a9c:	00050513          	mv	a0,a0
- aa0:	00300893          	li	a7,3
- aa4:	00000073          	ecall
- aa8:	ff1ff06f          	j	a98 <printer>
+00000a8c <dummy>:
+ a8c:	00000013          	nop
+ a90:	ffdff06f          	j	a8c <dummy>
+ a94:	00000013          	nop
+ a98:	00000013          	nop
+ a9c:	00000013          	nop
+ aa0:	00000013          	nop
+ aa4:	00000013          	nop
+ aa8:	00000013          	nop
+ aac:	00000013          	nop
+
+00000ab0 <printer>:
+ ab0:	00000517          	auipc	a0,0x0
+ ab4:	00050513          	mv	a0,a0
+ ab8:	00300893          	li	a7,3
+ abc:	00000073          	ecall
+ ac0:	ff1ff06f          	j	ab0 <printer>
 	...
 
 Disassembly of section .rodata:
@@ -1146,7 +1152,7 @@ Disassembly of section .rodata:
 Disassembly of section .debug_line:
 
 00000000 <.debug_line>:
-   0:	0f16                	.insn	2, 0x0f16
+   0:	0f3a                	.insn	2, 0x0f3a
    2:	0000                	.insn	2, 0x
    4:	0002                	.insn	2, 0x0002
    6:	007e                	.insn	2, 0x007e
@@ -2168,25 +2174,25 @@ Disassembly of section .debug_line:
  9f4:	0100                	.insn	2, 0x0100
  9f6:	00090103          	lb	sp,0(s2)
  9fa:	0100                	.insn	2, 0x0100
- 9fc:	00090203          	lb	tp,0(s2)
+ 9fc:	00090103          	lb	sp,0(s2)
  a00:	0100                	.insn	2, 0x0100
  a02:	00090103          	lb	sp,0(s2)
  a06:	0100                	.insn	2, 0x0100
  a08:	00090103          	lb	sp,0(s2)
  a0c:	0100                	.insn	2, 0x0100
- a0e:	00090103          	lb	sp,0(s2)
+ a0e:	00090203          	lb	tp,0(s2)
  a12:	0100                	.insn	2, 0x0100
  a14:	00090103          	lb	sp,0(s2)
  a18:	0100                	.insn	2, 0x0100
  a1a:	00090103          	lb	sp,0(s2)
  a1e:	0100                	.insn	2, 0x0100
- a20:	00090303          	lb	t1,0(s2)
+ a20:	00090103          	lb	sp,0(s2)
  a24:	0100                	.insn	2, 0x0100
  a26:	00090103          	lb	sp,0(s2)
  a2a:	0100                	.insn	2, 0x0100
  a2c:	00090103          	lb	sp,0(s2)
  a30:	0100                	.insn	2, 0x0100
- a32:	00090103          	lb	sp,0(s2)
+ a32:	00090203          	lb	tp,0(s2)
  a36:	0100                	.insn	2, 0x0100
  a38:	00090103          	lb	sp,0(s2)
  a3c:	0100                	.insn	2, 0x0100
@@ -2194,7 +2200,7 @@ Disassembly of section .debug_line:
  a42:	0100                	.insn	2, 0x0100
  a44:	00090203          	lb	tp,0(s2)
  a48:	0100                	.insn	2, 0x0100
- a4a:	00090103          	lb	sp,0(s2)
+ a4a:	00090203          	lb	tp,0(s2)
  a4e:	0100                	.insn	2, 0x0100
  a50:	00090103          	lb	sp,0(s2)
  a54:	0100                	.insn	2, 0x0100
@@ -2204,7 +2210,7 @@ Disassembly of section .debug_line:
  a60:	0100                	.insn	2, 0x0100
  a62:	00090103          	lb	sp,0(s2)
  a66:	0100                	.insn	2, 0x0100
- a68:	00090203          	lb	tp,0(s2)
+ a68:	00090403          	lb	s0,0(s2)
  a6c:	0100                	.insn	2, 0x0100
  a6e:	00090103          	lb	sp,0(s2)
  a72:	0100                	.insn	2, 0x0100
@@ -2345,7 +2351,7 @@ Disassembly of section .debug_line:
  c06:	00090203          	lb	tp,0(s2)
  c0a:	0100                	.insn	2, 0x0100
  c0c:	0404                	.insn	2, 0x0404
- c0e:	097f8a03          	lb	s4,151(t6)
+ c0e:	097f8803          	lb	a6,151(t6)
  c12:	0000                	.insn	2, 0x
  c14:	0301                	.insn	2, 0x0301
  c16:	0901                	.insn	2, 0x0901
@@ -2549,52 +2555,54 @@ Disassembly of section .debug_line:
  daa:	0901                	.insn	2, 0x0901
  dac:	0000                	.insn	2, 0x
  dae:	0301                	.insn	2, 0x0301
- db0:	00000903          	lb	s2,0(zero) # 0 <.debug_line>
+ db0:	0901                	.insn	2, 0x0901
+ db2:	0000                	.insn	2, 0x
  db4:	0301                	.insn	2, 0x0301
  db6:	0901                	.insn	2, 0x0901
  db8:	0000                	.insn	2, 0x
  dba:	0301                	.insn	2, 0x0301
- dbc:	0901                	.insn	2, 0x0901
- dbe:	0000                	.insn	2, 0x
+ dbc:	00000903          	lb	s2,0(zero) # 0 <.debug_line>
  dc0:	0301                	.insn	2, 0x0301
  dc2:	0901                	.insn	2, 0x0901
  dc4:	0000                	.insn	2, 0x
- dc6:	0401                	.insn	2, 0x0401
- dc8:	0306                	.insn	2, 0x0306
- dca:	7f80                	.insn	2, 0x7f80
- dcc:	0009                	.insn	2, 0x0009
- dce:	0100                	.insn	2, 0x0100
- dd0:	00090103          	lb	sp,0(s2)
- dd4:	0100                	.insn	2, 0x0100
- dd6:	00090103          	lb	sp,0(s2)
+ dc6:	0301                	.insn	2, 0x0301
+ dc8:	0901                	.insn	2, 0x0901
+ dca:	0000                	.insn	2, 0x
+ dcc:	0301                	.insn	2, 0x0301
+ dce:	0901                	.insn	2, 0x0901
+ dd0:	0000                	.insn	2, 0x
+ dd2:	0401                	.insn	2, 0x0401
+ dd4:	0306                	.insn	2, 0x0306
+ dd6:	7efe                	.insn	2, 0x7efe
+ dd8:	0009                	.insn	2, 0x0009
  dda:	0100                	.insn	2, 0x0100
- ddc:	00090203          	lb	tp,0(s2)
+ ddc:	00090103          	lb	sp,0(s2)
  de0:	0100                	.insn	2, 0x0100
  de2:	00090103          	lb	sp,0(s2)
  de6:	0100                	.insn	2, 0x0100
- de8:	00090103          	lb	sp,0(s2)
+ de8:	00090203          	lb	tp,0(s2)
  dec:	0100                	.insn	2, 0x0100
  dee:	00090103          	lb	sp,0(s2)
  df2:	0100                	.insn	2, 0x0100
  df4:	00090103          	lb	sp,0(s2)
  df8:	0100                	.insn	2, 0x0100
- dfa:	00090203          	lb	tp,0(s2)
+ dfa:	00090103          	lb	sp,0(s2)
  dfe:	0100                	.insn	2, 0x0100
  e00:	00090103          	lb	sp,0(s2)
  e04:	0100                	.insn	2, 0x0100
- e06:	00090103          	lb	sp,0(s2)
+ e06:	00090203          	lb	tp,0(s2)
  e0a:	0100                	.insn	2, 0x0100
  e0c:	00090103          	lb	sp,0(s2)
  e10:	0100                	.insn	2, 0x0100
  e12:	00090103          	lb	sp,0(s2)
  e16:	0100                	.insn	2, 0x0100
- e18:	00090303          	lb	t1,0(s2)
+ e18:	00090103          	lb	sp,0(s2)
  e1c:	0100                	.insn	2, 0x0100
  e1e:	00090103          	lb	sp,0(s2)
  e22:	0100                	.insn	2, 0x0100
- e24:	00090103          	lb	sp,0(s2)
+ e24:	00090203          	lb	tp,0(s2)
  e28:	0100                	.insn	2, 0x0100
- e2a:	00090203          	lb	tp,0(s2)
+ e2a:	00090103          	lb	sp,0(s2)
  e2e:	0100                	.insn	2, 0x0100
  e30:	00090103          	lb	sp,0(s2)
  e34:	0100                	.insn	2, 0x0100
@@ -2602,9 +2610,9 @@ Disassembly of section .debug_line:
  e3a:	0100                	.insn	2, 0x0100
  e3c:	00090103          	lb	sp,0(s2)
  e40:	0100                	.insn	2, 0x0100
- e42:	00090103          	lb	sp,0(s2)
+ e42:	00090203          	lb	tp,0(s2)
  e46:	0100                	.insn	2, 0x0100
- e48:	00090403          	lb	s0,0(s2)
+ e48:	00090303          	lb	t1,0(s2)
  e4c:	0100                	.insn	2, 0x0100
  e4e:	00090103          	lb	sp,0(s2)
  e52:	0100                	.insn	2, 0x0100
@@ -2612,7 +2620,7 @@ Disassembly of section .debug_line:
  e58:	0100                	.insn	2, 0x0100
  e5a:	00090203          	lb	tp,0(s2)
  e5e:	0100                	.insn	2, 0x0100
- e60:	00090103          	lb	sp,0(s2)
+ e60:	00090303          	lb	t1,0(s2)
  e64:	0100                	.insn	2, 0x0100
  e66:	00090103          	lb	sp,0(s2)
  e6a:	0100                	.insn	2, 0x0100
@@ -2624,24 +2632,20 @@ Disassembly of section .debug_line:
  e7c:	0100                	.insn	2, 0x0100
  e7e:	00090303          	lb	t1,0(s2)
  e82:	0100                	.insn	2, 0x0100
- e84:	00090203          	lb	tp,0(s2)
+ e84:	00090103          	lb	sp,0(s2)
  e88:	0100                	.insn	2, 0x0100
  e8a:	00090103          	lb	sp,0(s2)
  e8e:	0100                	.insn	2, 0x0100
- e90:	0304                	.insn	2, 0x0304
- e92:	0900d803          	lhu	a6,144(ra) # 20000090 <QSPI_FLASH+0x90>
- e96:	0000                	.insn	2, 0x
- e98:	0301                	.insn	2, 0x0301
- e9a:	0901                	.insn	2, 0x0901
- e9c:	0000                	.insn	2, 0x
- e9e:	0301                	.insn	2, 0x0301
- ea0:	0902                	.insn	2, 0x0902
- ea2:	0000                	.insn	2, 0x
- ea4:	0301                	.insn	2, 0x0301
- ea6:	0901                	.insn	2, 0x0901
- ea8:	0000                	.insn	2, 0x
- eaa:	0301                	.insn	2, 0x0301
- eac:	0901                	.insn	2, 0x0901
+ e90:	00090103          	lb	sp,0(s2)
+ e94:	0100                	.insn	2, 0x0100
+ e96:	00090103          	lb	sp,0(s2)
+ e9a:	0100                	.insn	2, 0x0100
+ e9c:	00090303          	lb	t1,0(s2)
+ ea0:	0100                	.insn	2, 0x0100
+ ea2:	00090103          	lb	sp,0(s2)
+ ea6:	0100                	.insn	2, 0x0100
+ ea8:	0304                	.insn	2, 0x0304
+ eaa:	0900d703          	lhu	a4,144(ra) # 20000090 <QSPI_FLASH+0x90>
  eae:	0000                	.insn	2, 0x
  eb0:	0301                	.insn	2, 0x0301
  eb2:	0901                	.insn	2, 0x0901
@@ -2653,7 +2657,7 @@ Disassembly of section .debug_line:
  ebe:	0901                	.insn	2, 0x0901
  ec0:	0000                	.insn	2, 0x
  ec2:	0301                	.insn	2, 0x0301
- ec4:	0901                	.insn	2, 0x0901
+ ec4:	0902                	.insn	2, 0x0902
  ec6:	0000                	.insn	2, 0x
  ec8:	0301                	.insn	2, 0x0301
  eca:	0901                	.insn	2, 0x0901
@@ -2665,7 +2669,7 @@ Disassembly of section .debug_line:
  ed6:	0901                	.insn	2, 0x0901
  ed8:	0000                	.insn	2, 0x
  eda:	0301                	.insn	2, 0x0301
- edc:	0902                	.insn	2, 0x0902
+ edc:	0901                	.insn	2, 0x0901
  ede:	0000                	.insn	2, 0x
  ee0:	0301                	.insn	2, 0x0301
  ee2:	0901                	.insn	2, 0x0901
@@ -2673,23 +2677,41 @@ Disassembly of section .debug_line:
  ee6:	0301                	.insn	2, 0x0301
  ee8:	0901                	.insn	2, 0x0901
  eea:	0000                	.insn	2, 0x
- eec:	0401                	.insn	2, 0x0401
- eee:	7f8b0307          	.insn	4, 0x7f8b0307
- ef2:	0009                	.insn	2, 0x0009
- ef4:	0100                	.insn	2, 0x0100
- ef6:	00090103          	lb	sp,0(s2)
- efa:	0100                	.insn	2, 0x0100
- efc:	00090403          	lb	s0,0(s2)
- f00:	0100                	.insn	2, 0x0100
- f02:	00090103          	lb	sp,0(s2)
- f06:	0100                	.insn	2, 0x0100
- f08:	00090103          	lb	sp,0(s2)
- f0c:	0100                	.insn	2, 0x0100
- f0e:	00090103          	lb	sp,0(s2)
- f12:	0100                	.insn	2, 0x0100
- f14:	0009                	.insn	2, 0x0009
- f16:	0000                	.insn	2, 0x
- f18:	0101                	.insn	2, 0x0101
+ eec:	0301                	.insn	2, 0x0301
+ eee:	0901                	.insn	2, 0x0901
+ ef0:	0000                	.insn	2, 0x
+ ef2:	0301                	.insn	2, 0x0301
+ ef4:	0901                	.insn	2, 0x0901
+ ef6:	0000                	.insn	2, 0x
+ ef8:	0301                	.insn	2, 0x0301
+ efa:	0901                	.insn	2, 0x0901
+ efc:	0000                	.insn	2, 0x
+ efe:	0301                	.insn	2, 0x0301
+ f00:	0902                	.insn	2, 0x0902
+ f02:	0000                	.insn	2, 0x
+ f04:	0301                	.insn	2, 0x0301
+ f06:	0901                	.insn	2, 0x0901
+ f08:	0000                	.insn	2, 0x
+ f0a:	0301                	.insn	2, 0x0301
+ f0c:	0901                	.insn	2, 0x0901
+ f0e:	0000                	.insn	2, 0x
+ f10:	0401                	.insn	2, 0x0401
+ f12:	7f870307          	.insn	4, 0x7f870307
+ f16:	0009                	.insn	2, 0x0009
+ f18:	0100                	.insn	2, 0x0100
+ f1a:	00090103          	lb	sp,0(s2)
+ f1e:	0100                	.insn	2, 0x0100
+ f20:	00090403          	lb	s0,0(s2)
+ f24:	0100                	.insn	2, 0x0100
+ f26:	00090103          	lb	sp,0(s2)
+ f2a:	0100                	.insn	2, 0x0100
+ f2c:	00090103          	lb	sp,0(s2)
+ f30:	0100                	.insn	2, 0x0100
+ f32:	00090103          	lb	sp,0(s2)
+ f36:	0100                	.insn	2, 0x0100
+ f38:	0009                	.insn	2, 0x0009
+ f3a:	0000                	.insn	2, 0x
+ f3c:	0101                	.insn	2, 0x0101
 
 Disassembly of section .debug_info:
 

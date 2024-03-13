@@ -47,17 +47,12 @@ print:
     lw a0, current_process(gp)
     jal block_process
 
-    lw t1, print_q_n(gp)
-    addi t2, t1, 1
-    sw t2, print_q_n(gp)
-
-    bne zero, t1, print_enabled
-    li a0, UART_0+ie
-    li a1, tx_ie
-    mv a2, a1
-    jal set_mem
-    sw s0, print_pointer(gp)
-print_enabled:
+    lw a0, current_process(gp)
+    lw a1, print_id_q_tail(gp)
+    li a2, max_process
+    addi a3, gp, print_id_queue
+    jal enqueue
+    sw a1, print_id_q_tail(gp)
 
     mv a0, s0
     lw a1, print_q_tail(gp)
@@ -66,12 +61,19 @@ print_enabled:
     jal enqueue
     sw a1, print_q_tail(gp)
 
-    lw a0, current_process(gp)
-    lw a1, print_id_q_tail(gp)
-    li a2, max_process
-    addi a3, gp, print_id_queue
-    jal enqueue
-    sw a1, print_id_q_tail(gp)
+    lw t1, print_q_n(gp)
+    addi t2, t1, 1
+    sw t2, print_q_n(gp)
+
+    bne zero, t1, print_enabled
+
+    li a0, UART_0+ie
+    li a1, tx_ie
+    mv a2, a1
+    jal set_mem
+    sw s0, print_pointer(gp)
+    
+print_enabled:
 
     lw s0, 0(sp)
     addi sp, sp, 4
