@@ -44,98 +44,7 @@ sync_trap_jmp_tbl:
     nop
     j m_env_call
 
-instr_addr_misaligned:
-    la a0, instr_addr_misaligned_msg
-    jal print_const
-    j .
-instr_access_fault:
-    la a0, instr_access_fault_msg
-    jal print_const
-    j .
-illegal_instruction:
-    la a0, illegal_instruction_msg
-    jal print_const
-    j .
-breakpoint:
-    la a0, breakpoint_msg
-    jal print_const
-    j sync_trap_exit
-ldr_addr_misaligned:
-    la a0, ldr_addr_misaligned_msg
-    jal print_const
-    j .
-ldr_access_fault:
-    la a0, ldr_access_fault_msg
-    jal print_const
-    j .
-str_amo_addr_misaligned:
-    la a0, str_amo_addr_misaligned_msg
-    jal print_const
-    j .
-str_amo_access_fault:
-    la a0, str_amo_access_fault_msg
-    jal print_const
-    j .
-
-#a0-6: ecall args
-#->a0: ecall output
-#a7: ecall code
-
-.set max_u_ecall,   3
-u_env_call:
-    li t0, max_u_ecall
-    blt t0, a7, u_ecall_inv_code
-    slli a7, a7, 2
-    la t0, u_env_call_tbl
-    add t0, t0, a7
-    jr t0
-u_env_call_tbl:
-    j set_led
-    j exit_process
-    j create_process
-    j print
-    j yield
-
-
-.set max_m_ecall,   1
-m_env_call:
-    li t0, max_m_ecall
-    blt t0, a7, m_ecall_inv_code
-    slli a7, a7, 2
-    la t0, m_env_call_tbl
-    add t0, t0, a7
-    jr t0
-m_env_call_tbl:
-    j create_process
-    j start_scheduler
-
-.include "ecall.S"
-
-
-u_ecall_inv_code:
-    la a0, u_ecall_inv_code_msg
-    jal print_const
-    j sync_ecall_exit
-
-m_ecall_inv_code:
-    la a0, m_ecall_inv_code_msg
-    jal print_const
-    #j sync_ecall_exit
-
-sync_ecall_exit:
-    csrr t0, mepc
-    addi t0, t0, 4
-    csrw mepc, t0
-sync_trap_exit:
-    csrr t0, mstatus
-    srli t0, t0, 11
-    andi t0, t0, 1
-    bne t0, zero, t_exit
-    lw gp, 0(sp)
-    addi sp, sp, 4
-    csrrw sp, mscratch, sp
-t_exit:
-    mret
+.include "sync_trap_calls.S"
 
 #async traps save the temp registers to preserve state
 #Software interrupts unlikely to be used on a single hart board
@@ -170,6 +79,18 @@ m_timr_intr:
     sw a1, p_queue_tail(gp)
 
 not_ready:
+    li t1, terminated
+    bne t0, t1, not_terminated
+
+    lw t1, p_stack_pointer(gp)
+    addi t1, t1, -4
+    sw a0, 0(t1)
+    sw t1, p_stack_pointer(gp)
+    lw t1, process_count(gp)
+    addi t1, t1, -1
+    sw t1, process_count(gp)
+
+not_terminated:
     la a0, process_switch_msg
     jal print_const
 
@@ -184,25 +105,47 @@ not_ready:
 
 
 m_extr_intr:
-    # csrrw sp, mscratch, sp
-    # addi sp, sp, -28
-    # sw t6, 24(sp)
-    # sw t5, 20(sp)
-    # sw t4, 16(sp)
-    # sw t3, 12(sp)
-    # sw t2, 8(sp)
-    # sw t1, 4(sp)
-    # sw t0, 0(sp)
-    
-    # nop
-    
-    # lw t0, 0(sp)
-    # lw t1, 4(sp)
-    # lw t2, 8(sp)
-    # lw t3, 12(sp)
-    # lw t4, 16(sp)
-    # lw t5, 20(sp)
-    # lw t6, 24(sp)
-    # addi sp, sp, 28
-    # csrrw sp, mscratch, sp
+    csrrw sp, mscratch, sp
+    addi sp, sp, -(4*9)
+    sw s0, 32(sp)
+    sw s1, 28(sp)
+    sw s2, 24(sp)
+    sw s3, 20(sp)
+    sw a0, 16(sp)
+    sw a1, 12(sp)
+    sw a2, 8(sp)
+    sw a3, 4(sp)
+    sw gp, 0(sp)
+
+    li s3, PLIC
+    lw s3, plic_claim(s3)
+    slli s0, s3, 2
+    la s1, ext_intr_tbl
+    add s0, s0, s1
+    jr s0
+
+ext_intr_tbl:
+    nop
+    nop
+    nop
+    j uart0_ext_intr
+
+.include "ext_trap_calls.S"
+
+exit_ext_intr:
+    li s3, PLIC
+    sw s3, plic_claim(s3)
+
+    lw gp, 0(sp)
+    lw a3, 4(sp)
+    lw a2, 8(sp)
+    lw a1, 12(sp)
+    lw a0, 16(sp)
+    lw s3, 20(sp)
+    lw s2, 24(sp)
+    lw s1, 28(sp)
+    lw s0, 32(sp)
+
+    addi sp, sp, 4*9
+    csrr sp, mscratch
     mret

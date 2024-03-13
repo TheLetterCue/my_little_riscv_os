@@ -8,29 +8,35 @@ set_led:
 
 exit_process:
 
-    csrw pmpcfg0, zero
-    fence.i
+    li t0, terminated
+    sb t0, p_status(a0)
+    sw a1, p_registers+1*4(a0)
+
+    j sync_ecall_exit
+    # csrw pmpcfg0, zero
+    # fence.i
     #Discard killed process' gp
-    addi sp, sp, 4
+    # addi sp, sp, 4
 
-    lw t0, current_process(gp)
-    lw t1, p_stack_pointer(gp)
-    addi t1, t1, -4
-    sw t0, 0(t1)
-    sw t1, p_stack_pointer(gp)
+    # lw t0, current_process(gp)
+    # lw t1, p_stack_pointer(gp)
+    # addi t1, t1, -4
+    # sw t0, 0(t1)
+    # sw t1, p_stack_pointer(gp)
 
-    lw a1, p_queue_head(gp)
-    li a2, max_process
-    addi a3, gp, p_queue
-    jal dequeue
-    sw a1, p_queue_head(gp)
-    sw a0, current_process(gp)
-    lw t0, process_count(gp)
-    addi t0, t0, -1
-    sw t0, process_count(gp)
+    # lw a1, p_queue_head(gp)
+    # li a2, max_process
+    # addi a3, gp, p_queue
+    # jal dequeue
+    # sw a1, p_queue_head(gp)
+    # sw a0, current_process(gp)
+
+    # lw t0, process_count(gp)
+    # addi t0, t0, -1
+    # sw t0, process_count(gp)
 
 
-    j run_process
+    # j run_process
 
     #a0: char*
 print:
@@ -51,6 +57,7 @@ print:
     li a1, tx_ie
     mv a2, a1
     jal set_mem
+    sw t0, print_pointer(gp)
 print_enabled:
 
     j sync_ecall_exit

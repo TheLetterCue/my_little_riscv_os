@@ -37,7 +37,14 @@ not_over_d:
     add a3, a3, a2
     lw a0, (a3)
     ret
-
+#a0:  -> newvalue
+#a1: head of q
+#a3: addr of queue
+get_head:
+    slli a1, a1, 2
+    add a3, a3, a2
+    lw a0, (a3)
+    ret
 
 #a0: address of constant null terminated string
 print_const:

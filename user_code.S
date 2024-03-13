@@ -32,6 +32,10 @@ proc_example_child:
     ecall
     # j proc_example_child
 
+.align 3
+dummy:
+    nop
+    j dummy
 
 
 .align 5

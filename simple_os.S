@@ -210,6 +210,11 @@ _boot:
     # li a7, 0
     # ecall
     
+    li a0, 1
+    la a1, dummy
+    li a7, 0
+    ecall
+
     li a0, 4
     la a1, proc_example
     li a7, 0

@@ -28,6 +28,7 @@
 .set running,           0
 .set ready,             1
 .set blocked,           2
+.set terminated,        3
 
 
 .set uart_div,          138

@@ -20,6 +20,7 @@
 .set pending_array, 0x00001000
 .set m_mode_int_en, 0x00002000
 .set m_mode_pri_thr,0x00200000
+.set plic_claim,    0x00200004
 
 .set plic_uart0,    3*4
 
