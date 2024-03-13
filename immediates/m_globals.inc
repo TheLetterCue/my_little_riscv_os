@@ -14,7 +14,7 @@
 .set process_table_end, process_table+max_process*process_entry_size
 .set next_pid,          process_table_end
 .set print_id_queue,    next_pid+4
-,set print_id_q_head,   print_id_queue+4*max_process
+.set print_id_q_head,   print_id_queue+4*max_process
 .set print_id_q_tail,   print_id_q_head+4
 .set print_queue,       print_id_q_tail+4
 .set _end_print_q,      print_queue+4*max_process
@@ -22,3 +22,4 @@
 .set print_q_tail,      print_q_head+4
 .set print_q_n,         print_q_tail+4
 .set print_pointer,     print_q_n+4
+

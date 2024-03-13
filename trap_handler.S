@@ -117,8 +117,8 @@ m_extr_intr:
     sw a3, 4(sp)
     sw gp, 0(sp)
 
-    li s3, PLIC
-    lw s3, plic_claim(s3)
+    li s3, PLIC+plic_claim
+    lw s3, (s3)
     slli s0, s3, 2
     la s1, ext_intr_tbl
     add s0, s0, s1
@@ -133,8 +133,8 @@ ext_intr_tbl:
 .include "ext_trap_calls.S"
 
 exit_ext_intr:
-    li s3, PLIC
-    sw s3, plic_claim(s3)
+    li s3, PLIC+plic_claim
+    sw s3, (s3)
 
     lw gp, 0(sp)
     lw a3, 4(sp)

@@ -1,49 +1,52 @@
 user_section:
 
-.align 6 #Gives 32 lines
-proc_example:
-    la a0, breakpoint_msg
-    li a7, 3
-    ecall
-    la a0, led_blue
-    li a7, 0
-    ecall
-    li a0, 4
-    la a1, proc_example_child
-    li a7, 2
-    ecall
-    li a7, 1
-    ecall
-    # j proc_example
+# .align 6 #Gives 32 lines
+# proc_example:
+#     la a0, breakpoint_msg
+#     li a7, 3
+#     ecall
+#     la a0, led_blue
+#     li a7, 0
+#     ecall
+#     li a0, 4
+#     la a1, proc_example_child
+#     li a7, 2
+#     ecall
+#     li a7, 1
+#     ecall
+#     # j proc_example
 
-.align 6
-proc_example_child:
-    la a0, breakpoint_msg
-    li a7, 3
-    ecall
-    la a0, led_red
-    li a7, 0
-    ecall
-    li a0, 4
-    la a1, proc_example
-    li a7, 2
-    ecall
-    li a7, 1
-    ecall
-    # j proc_example_child
+# .align 6
+# proc_example_child:
+#     la a0, breakpoint_msg
+#     li a7, 3
+#     ecall
+#     la a0, led_red
+#     li a7, 0
+#     ecall
+#     li a0, 4
+#     la a1, proc_example
+#     li a7, 2
+#     ecall
+#     li a7, 1
+#     ecall
+#     # j proc_example_child
 
 .align 3
 dummy:
     nop
     j dummy
 
+printer:
+    
 
-.align 5
-test_program0:
-    li a0, led_red
-    li a7, 0
-    ecall
-    j test_program0
+
+# .align 5
+# test_program0:
+#     li a0, led_red
+#     li a7, 0
+#     ecall
+#     j test_program0
 
 # .align 5
 # test_program1:

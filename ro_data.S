@@ -35,3 +35,5 @@ program_start_msg: .string "Starting scheduler\n"
 text_limit_exceeded_msg: .string "Program text size exceeds limit\n"
 .align 2
 invalid_text_range_msg: .string "Program text cannot be loaded from outside flash\n"
+.align 2
+user_msg: .string "Hello!!\n"

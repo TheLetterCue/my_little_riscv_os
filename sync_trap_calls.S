@@ -90,3 +90,4 @@ sync_trap_exit:
     csrrw sp, mscratch, sp
 t_exit:
     mret
+

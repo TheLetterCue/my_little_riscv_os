@@ -2,7 +2,7 @@ uart0_ext_intr:
     #print characters until queue full
     #or end of string, if end of string
     #start next string and unblock process
-    lw s0, UART_0
+    li s0, UART_0
     lw s1, print_pointer(gp)
     addi s1, s1, -1
 uart_print_loop:
@@ -24,7 +24,7 @@ uart_print_loop:
 
     lw a1, print_id_q_head(gp)
     li a2, max_process
-    addi a3, gp, print_id_queue
+    addi a3, gp, print_id_queue+-8
     jal dequeue
     sw a1, print_id_q_head(gp)
 
@@ -35,3 +35,4 @@ uart_print_loop:
 tx_q_full:
     sw s1, print_pointer(gp)
     j exit_ext_intr
+
