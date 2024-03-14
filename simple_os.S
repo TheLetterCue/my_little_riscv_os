@@ -240,6 +240,21 @@ _boot:
     li a7, 0
     ecall
 
+    li a0, 3
+    la a1, test_program0
+    li a7, 0
+    ecall
+
+    li a0, 3
+    la a1, test_program1
+    li a7, 0
+    ecall
+
+    li a0, 3
+    la a1, test_program2
+    li a7, 0
+    ecall
+
     # li a0, 4
     # la a1, proc_example_child
     # li a7, 0

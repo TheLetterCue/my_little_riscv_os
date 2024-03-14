@@ -63,6 +63,10 @@ print_const_write:
 block_process:
     li a1, blocked
     sb a1, p_status(a0)
+
+    li t1, CLINT+mtimecmp
+    sw zero, 4(t1)
+    sw zero, 0(t1) 
     # sw a1, p_registers+1*4(a0)
     ret
 
@@ -73,11 +77,14 @@ unblock_process:
     li a1, ready
     sb a1, p_status(a0)
     #a0 in place
+    lw a1, current_process(gp)
+    beq a0, a1, blocked_running
     lw a1, p_queue_tail(gp)
     li a2, max_process
     addi a3, gp, p_queue
     jal enqueue
     sw a1, p_queue_tail(gp)
+blocked_running:
     lw ra, 0(sp)
     addi sp, sp, 4
     ret
@@ -257,7 +264,7 @@ save_state:
     li t2, ready
     sb t2, p_status(t0)
 
-    not_running:
+not_running:
 
     mv a0, t0
     # lw a1, p_status(t0)
