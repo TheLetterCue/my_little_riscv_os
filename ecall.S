@@ -84,6 +84,32 @@ print_enabled:
     j sync_ecall_exit
 
 
+#a0: buffer
+#a1: message, zero to not include
+scan:
+    beq a1, zero, no_scan_msg
+    addi a1, a1, -1
+    li t2, UART_0+txdata
+scan_print:
+    addi a1, a1, 1
+    lb t0, (a1)
+scan_busy_print:
+    amoor.w t1, t0, (t2)
+    bne zero, t1, scan_busy_print
+    bne zero, t0, scan_print
+no_scan_msg:
+    li t3, rx_q_empty
+    li t2, UART_0+rxdata
+scan_busy_scan:
+    lw t0, (t2)
+    and t4, t0, t3
+    bne t4, zero, scan_busy_scan
+    sb t0, (a0)
+    addi a0, a0, 1
+    bne zero, t0, scan_busy_scan
+    j sync_ecall_exit
+
+
 yield:
     # li t1, CLINT+mtime
     # lw t2, 4(t1)

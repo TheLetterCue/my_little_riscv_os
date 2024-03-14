@@ -37,14 +37,19 @@ dummy:
     nop
     j dummy
 
+.set buffer,    0
 .align 6
 printer:
-    la a0, user_msg
+    addi a0, gp, buffer
+    la a1, printer_msg
+    li a7, 5
+    ecall
+    addi a0, gp, buffer
     li a7, 3
     ecall
-    li a7, 1
-    ecall
-
+    j printer
+printer_msg: .string "Enter a string:\n"
+    .align 2
 
 # .align 5
 # test_program0:

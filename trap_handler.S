@@ -92,8 +92,8 @@ not_ready:
     
 
 not_terminated:
-    la a0, process_switch_msg
-    jal print_const
+    # la a0, process_switch_msg
+    # jal print_const
 
     lw a1, p_queue_head(gp)
     li a2, max_process

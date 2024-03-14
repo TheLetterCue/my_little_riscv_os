@@ -25,6 +25,8 @@
 .set uart_plic_priority,1
 .set uart_plic_mask,    0x08
 
+.set rx_q_empty,        0x80000000
+
 .set running,           0
 .set ready,             1
 .set blocked,           2
