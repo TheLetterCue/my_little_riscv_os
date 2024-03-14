@@ -128,6 +128,14 @@ _boot:
     mv a2, a1
     jal set_mem
 
+    # la t0, library_code
+    # csrw pmpaddr4, t0
+    # la t0, library_end
+    # csrw pmpaddr5, t0
+
+    # li t0, 0x00000d00
+    # csrw pmpcfg1, t0
+
 
 
 
@@ -227,7 +235,7 @@ _boot:
     li a7, 0
     ecall
 
-    li a0, 4
+    li a0, 8
     la a1, printer
     li a7, 0
     ecall
@@ -264,3 +272,9 @@ t:
 
 
 .include "user_code.S"
+
+# .align 2
+# library_code:
+# .include "string.S"
+# library_end:
+
