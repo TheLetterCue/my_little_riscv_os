@@ -15,10 +15,77 @@ fib:
     addi a1, gp, fib_buff
     mv a2, a1
     jal string_to_int_fib
+    jal fibonacci
+    addi a1, gp, fib_buff
+    jal int_to_string_fib
+    addi a0, gp, fib_buff
+    li a7, 3
+    ecall
+    la a0, fib_newl
+    li a7, 3
+    ecall
+    j fib
+    li a7, 1
+    ecall
 
+#a0: index -> n
+fibonacci:
+    addi sp, sp, -4
+    sw ra, 0(sp)
+    li t0, 1
+    bgt a0, t0, fib_sc
+    mv a0, t0
+    lw ra, (sp)
+    addi sp, sp, 4
+    ret
+fib_sc:
+    addi sp, sp, -4
+    sw s0, (sp)
+    addi a0, a0, -1
+    mv s0, a0
+    jal fibonacci
+    mv t0, a0
+    mv a0, s0
+    addi a0, a0, -1
+    mv s0, t0
+    jal fibonacci
+    add a0, a0, s0
+    lw s0, (sp)
+    addi sp, sp, 4
+    lw ra, (sp)
+    addi sp, sp, 4
+    ret
 
-fib_msg: .string "Calc nth fib num:\n"
-.align 2
+    #a0: number
+#a1: buffer
+int_to_string_fib:
+    addi sp, sp, -4
+    sw ra, (sp)
+    mv t0, zero
+    li t1, 10
+    mv t2, a1
+    bge a0, zero, pos_num_fib
+    neg a0, a0
+    li t0, 1
+pos_num_fib:
+    rem t3, a0, t1
+    addi t3, t3, 48
+    sb t3, (a1)
+    addi a1, a1, 1
+    div a0, a0, t1
+    bne zero, a0, pos_num_fib
+    beq zero, t0, pos_num_2_fib
+    li t3, 45
+    sb t3, (a1)
+    addi a1, a1, 1 
+pos_num_2_fib:
+    sb zero, (a1)
+    mv a1, t2
+    mv a0, a1
+    jal copy_reverse_string_fib
+    lw ra, (sp)
+    addi sp, sp, 4
+    ret
 
 #a0: original string address
 #a1: new address
@@ -78,6 +145,11 @@ st_t_i_exit_fib:
     lw ra, (sp)
     addi sp, sp, 4
     ret
+
+fib_msg: .string "Calc nth fib num:\n"
+.align 2
+fib_newl: .string "\n"
+.align 2
 
 .set buffer,    0
 .set buffer1,   buffer+10*4

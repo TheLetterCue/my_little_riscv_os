@@ -50,4 +50,4 @@
 .set machine_p_intr_en, 0x80
 
 # quantum = ~(32178Hz*0.05seconds)
-.set quantum,           1638*10
+.set quantum,           1638*1

@@ -240,6 +240,11 @@ _boot:
     li a7, 0
     ecall
 
+    li a0, 8
+    la a1, fib
+    li a7, 0
+    ecall
+
     li a0, 3
     la a1, test_program0
     li a7, 0
