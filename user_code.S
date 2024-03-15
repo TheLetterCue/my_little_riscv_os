@@ -317,34 +317,3 @@ test_program2:
     li a7, 0
     ecall
     j test_program2
-
-# .align 5
-# test_program3:
-#     li a0, led_cyan
-#     li a7, 0
-#     ecall
-#     li a7, 1
-#     ecall
-#     # beq zero, zero, test_program3
-
-# .align 5
-# test_program4:
-#     li a0, led_orange
-#     li a7, 0
-#     ecall
-#     beq zero, zero, test_program4
-
-# .align 5
-# test_program5:
-#     li a0, led_purple
-#     li a7, 0
-#     ecall
-#     beq zero, zero, test_program5
-
-# .align 5
-# test_program6:
-#     li a0, -1
-#     li a7, 0
-#     ecall
-#     beq zero, zero, test_program6
-    

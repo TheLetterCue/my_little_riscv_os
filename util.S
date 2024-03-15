@@ -93,13 +93,6 @@ blocked_running:
 
 #a0: process pointer
 run_process:
-    # lw a1, p_queue_head(gp)
-    # li a2, max_process
-    # addi a3, gp, p_queue
-    # jal dequeue
-    # sw a1, p_queue_head(gp)
-    # mv t0, a0
-    # sw t0, current_process(gp)
     mv t0, a0
     
     lw t1, p_text_pointer(t0)
@@ -267,7 +260,6 @@ save_state:
 not_running:
 
     mv a0, t0
-    # lw a1, p_status(t0)
 
     ret
 

@@ -128,16 +128,6 @@ _boot:
     mv a2, a1
     jal set_mem
 
-    # la t0, library_code
-    # csrw pmpaddr4, t0
-    # la t0, library_end
-    # csrw pmpaddr5, t0
-
-    # li t0, 0x00000d00
-    # csrw pmpcfg1, t0
-
-
-
 
 
 
@@ -149,7 +139,6 @@ _boot:
     sw zero, next_pid(gp)
 
     #head points to start of queue
-    # addi t0, gp, p_queue+(max_process-1)*4
     li t0, -1
     sw t0, p_queue_head(gp)
     #tail points to end of queue
@@ -198,37 +187,6 @@ _boot:
     sw t2, p_data_pointer(t1)
     sw t0, p_stack_pointer(gp)
         
-
-    # li a0, 3
-    # la a1, test_program0
-    # li a7, 0
-    # ecall
-
-
-    # li a0, 3
-    # la a1, test_program1
-    # li a7, 0
-    # ecall
-
-    # li a0, 3
-    # la a1, test_program2
-    # li a7, 0
-    # ecall
-
-    # li a0, 3
-    # la a1, test_program3
-    # li a7, 0
-    # ecall
-
-    # li a0, 3
-    # la a1, test_program4
-    # li a7, 0
-    # ecall
-    
-    # li a0, 3
-    # la a1, test_program5
-    # li a7, 0
-    # ecall
     
     li a0, 1
     la a1, dummy
@@ -260,11 +218,6 @@ _boot:
     li a7, 0
     ecall
 
-    # li a0, 4
-    # la a1, proc_example_child
-    # li a7, 0
-    # ecall
-
     la a0, program_start_msg
     jal print_const
 
@@ -292,9 +245,4 @@ t:
 
 
 .include "user_code.S"
-
-# .align 2
-# library_code:
-# .include "string.S"
-# library_end:
 

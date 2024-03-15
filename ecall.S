@@ -13,34 +13,9 @@ exit_process:
     sb t0, p_status(t1)
     li t1, CLINT+mtimecmp
     sw zero, 4(t1)
-    sw zero, 0(t1) 
-    # sw a1, p_registers+1*4(a0)
+    sw zero, 0(t1)
 
     j sync_trap_exit
-    # csrw pmpcfg0, zero
-    # fence.i
-    #Discard killed process' gp
-    # addi sp, sp, 4
-
-    # lw t0, current_process(gp)
-    # lw t1, p_stack_pointer(gp)
-    # addi t1, t1, -4
-    # sw t0, 0(t1)
-    # sw t1, p_stack_pointer(gp)
-
-    # lw a1, p_queue_head(gp)
-    # li a2, max_process
-    # addi a3, gp, p_queue
-    # jal dequeue
-    # sw a1, p_queue_head(gp)
-    # sw a0, current_process(gp)
-
-    # lw t0, process_count(gp)
-    # addi t0, t0, -1
-    # sw t0, process_count(gp)
-
-
-    # j run_process
 
     #a0: char*
 print:
