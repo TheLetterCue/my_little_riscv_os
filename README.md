@@ -1,19 +1,20 @@
 Compliation requirements:
-    Risc-v gnu toolchain
-        https://github.com/riscv-collab/riscv-gnu-toolchain
+Risc-v gnu toolchain
+https://github.com/riscv-collab/riscv-gnu-toolchain
 
     make
     
-Running requires
-    Sifive Hifive1 Revb board connected with usb
+Running requires:
+Sifive Hifive1 Revb board connected with usb
+openocd
 
-    openocd
 
-    run commands
 
     openocd -f config/openocd.cfg
 
     /opt/riscv/bin/riscv64-unknown-elf-gdb simple_os.elf
+
+    target extended-remote localhost:3333
 
     load
 
