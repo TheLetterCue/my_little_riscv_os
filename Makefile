@@ -20,3 +20,4 @@ simple_os.elf.diss: simple_os.elf
 clear:
 	rm simple_os.elf*
 	rm simple_os.o*
+	rm diss/*
